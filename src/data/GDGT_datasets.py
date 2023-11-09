@@ -1,27 +1,21 @@
+import sys
+sys.path.append("../")
+
 import pandas as pd
 import numpy as np
 
-def load_duncan(age_max = 0.16):
+from sklearn.datasets._base import Bunch, _convert_data_dataframe, validate_params
+from sklearn.datasets import load_diabetes, load_iris
+
+from importlib.resources import read_text
+
+DATA_MODULE = "GDGT-Proxy-System-Model.src.data"
+DESCR_MODULE = "src.data"
+
+def load_excel_data(modern=True):
     fnm_excel = "../data/external/GDGTdata_Antarctica_220923.xlsx"
-
-    sheet_name = "iso modern cal"
-    # sheet_name = "SO Modern data"
-    df_calib = pd.read_excel(fnm_excel, sheet_name=sheet_name,skiprows=1).dropna()
-    df_calib["Age (Ma)"] = 0.0
-    df_calib["calibration"] = True
-
+    
     sst_name = "Sea Surface Temp"
-
-    if sheet_name == "SO Modern data":
-        compound_names = df_calib.columns[4:10]
-    else:
-        compound_names = df_calib.columns[2:8]
-
-    idx_calib = ~(df_calib[compound_names]==0).any(axis=1)
-
-    df_ceno = pd.read_excel(fnm_excel, sheet_name="Combined")
-
-    sst_name_ceno = "Sea Surface Temp"
 
     # Mapping of column names
     col_map = {
@@ -30,27 +24,72 @@ def load_duncan(age_max = 0.16):
         1298: "GDGT-2",
         1296: "GDGT-3",
         1292: "Crenarchaeol",
-        "1292'": "Cren'",
-        sst_name_ceno: sst_name
+        "1292'": "Cren'"
         }
 
-    df_ceno[sst_name_ceno] = np.nan
-    df_ceno["latitude"] = df_ceno["Latitude (approx paleo)"].values
-    df_ceno["calibration"] = False
+    if modern:
+        df = pd.read_excel(fnm_excel, sheet_name="iso modern cal" ,skiprows=1).dropna()
+        df["Age (Ma)"] = 0.0
 
-    df_ceno = df_ceno.rename(columns=col_map)
+        compound_names = df.columns[2:8]
 
-    df_ceno = df_ceno.drop(1304)
-    # filter and sort by age
-    df_ceno = df_ceno[df_ceno["Age (Ma)"]<=age_max]
-    df_ceno_ = df_ceno.sort_values("Age (Ma)")
-    age = df_ceno_["Age (Ma)"]
+        idx = ~(df[compound_names]==0).any(axis=1)
+        columns = list(compound_names)+[sst_name,"Age (Ma)","Longitude","Latitude"]
+        df["Latitude"] = df["latitude"].values
+        df["Longitude"] = df["longitude"].values
+        df = df[columns].loc[idx]
+    else:
+        df = pd.read_excel(fnm_excel, sheet_name="Combined")
+        df[sst_name] = np.nan
+        df["Latitude"] = df["Latitude (approx paleo)"].values
+        df["Longitude"] = df["Longitude (approx paleo)"].values
+        
+        df = df.rename(columns=col_map)
 
-    compound_names = df_ceno_.columns[8:14]
+        df = df.drop(1304)
+        
+        compound_names = df.columns[8:14]
 
-    idx_ceno = ~(df_ceno_[compound_names]==0).any(axis=1)
+        idx = ~(df[compound_names]==0).any(axis=1)
+        columns = list(compound_names)+[sst_name,"Age (Ma)","Longitude","Latitude"]
+        df = df[columns].loc[idx].sort_values("Age (Ma)")
+    
+    feature_columns = list(compound_names)+["Age (Ma)","Longitude","Latitude"]
+    
+    return df[feature_columns].values, df[sst_name].values, feature_columns, ["SST"]
 
-    columns = list(compound_names)+[sst_name,"Age (Ma)","calibration","latitude"]
 
-    return compound_names, sst_name, pd.concat([df_ceno_[columns].loc[idx_ceno],df_calib[columns].loc[idx_calib]],axis=0)
+@validate_params(
+    {"return_X_y": ["boolean"], "as_frame": ["boolean"]},
+    prefer_skip_nested_validation=True,
+)
+def load_duncan2023(*, modern=True, return_X_y=False, as_frame=False):
+    data_file_name = "../data/external/GDGTdata_Antarctica_220923.xlsx"
+    data, target, feature_names, target_names = load_excel_data(modern)
+    # target, data, target_names, feature_names = load_excel_data()
 
+    fdescr = read_text(DESCR_MODULE, "duncan2023.rst")
+
+    frame = None
+    target_columns = [
+        "SST",
+    ]
+    # target_columns = target_names
+    if as_frame:
+        frame, data, target = _convert_data_dataframe(
+            "load_duncan2023_modern", data, target, feature_names, target_columns
+        )
+
+    if return_X_y:
+        return data, target
+
+    return Bunch(
+        data=data,
+        target=target,
+        frame=frame,
+        target_names=target_names,
+        DESCR=fdescr,
+        feature_names=feature_names,
+        filename=data_file_name,
+        data_module=DATA_MODULE,
+    )
