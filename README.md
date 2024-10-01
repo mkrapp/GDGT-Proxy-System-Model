@@ -1,5 +1,13 @@
 # A GDGT Proxy System Model
 
+## Installation
+
+Create a `conda` environment from `environment.yml`
+
+```
+conda env create --file environment.yml
+```
+
 ## Overview
 
 - A Bayesian Inference approach for a GDGT proxy system model.
@@ -33,8 +41,6 @@ $$
     ├── AUTHORS.md
     ├── LICENSE
     ├── README.md
-    ├── bin
-    ├── config
     ├── data
     │   ├── external
     │   ├── interim
