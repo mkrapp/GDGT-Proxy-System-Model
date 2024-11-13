@@ -8,6 +8,7 @@ dependencies:
   - geopandas
   - jupyter
   - matplotlib
+  - mpltern
   - netcdf4
   - numpy
   - openpyxl
