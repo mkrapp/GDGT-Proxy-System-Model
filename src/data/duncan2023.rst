@@ -5,7 +5,7 @@ Modern Calibration and Paleo GDGT dataset
 
 **Data Set Characteristics:**
 
-    :Number of Instances: 2775 (core-top samples from around the globe)
+    :Number of Instances: 968 modern and 1844 ancient (core-top samples from around the globe)
     :Number of Attributes: 6 numeric, predictive attributes 
     :Attribute Information:
         - GDGT-0
@@ -15,28 +15,47 @@ Modern Calibration and Paleo GDGT dataset
         - Crenarchaeol
         - Cren'
         - Latitude
+        - Longitude
         - SST
-                
-    :Summary Statistics:
 
-    ============== ==== ==== ======= ===== ====================
-                    Min  Max   Mean    SD   Class Correlation
-    ============== ==== ==== ======= ===== ====================
-    sepal length:   4.3  7.9   5.84   0.83    0.7826
-    sepal width:    2.0  4.4   3.05   0.43   -0.4194
-    petal length:   1.0  6.9   3.76   1.76    0.9490  (high!)
-    petal width:    0.1  2.5   1.20   0.76    0.9565  (high!)
-    ============== ==== ==== ======= ===== ====================
+    :Summary Statistics (modern):
+
+    |              |       mean |         std |          min |          25% |        50% |        75% |        max |
+    |:-------------|-----------:|------------:|-------------:|-------------:|-----------:|-----------:|-----------:|
+    | GDGT-0       |  0.417786  |  0.131979   |    0.0721    |   0.31435    |  0.45215   |   0.513244 |   0.816471 |
+    | GDGT-1       |  0.0511458 |  0.0222465  |    0.0098896 |   0.0321927  |  0.0566481 |   0.0684   |   0.1237   |
+    | GDGT-2       |  0.03761   |  0.0287262  |    0         |   0.011775   |  0.0308212 |   0.060775 |   0.1557   |
+    | GDGT-3       |  0.007166  |  0.00556415 |    0         |   0.00310176 |  0.005     |   0.0103   |   0.0534   |
+    | Crenarchaeol |  0.467496  |  0.0903683  |    0.0324256 |   0.414275   |  0.46675   |   0.521225 |   0.753201 |
+    | Cren'        |  0.0187964 |  0.0205183  |    0         |   0.0046     |  0.0103241 |   0.029025 |   0.1207   |
+    | Age (Ma)     |  0         |  0          |    0         |   0          |  0         |   0        |   0        |
+    | Longitude    | 16.5307    | 91.7415     | -179.849     | -49.2085     | 13.1436    | 113.834    | 179.848    |
+    | Latitude     |  6.4394    | 49.7004     |  -77.8012    | -41.6157     | 14.595     |  47.417    |  88.6752   |
+    | SST          | 12.3258    | 10.0607     |   -1.8       |   1.99       | 12         |  20.025    |  29.6      |
+
+    :Summary Statistics (ancient):
+
+    |              |        mean |         std |          min |          25% |          50% |         75% |        max |
+    |:-------------|------------:|------------:|-------------:|-------------:|-------------:|------------:|-----------:|
+    | GDGT-0       |   0.446321  |   0.164064  |   0          |   0.326647   |   0.490229   |   0.551837  |   0.982496 |
+    | GDGT-1       |   0.0486365 |   0.0260569 |   0.00181277 |   0.0332965  |   0.049333   |   0.0594426 |   0.484228 |
+    | GDGT-2       |   0.0414498 |   0.0379911 |   0.00041273 |   0.0116382  |   0.0288537  |   0.0657998 |   0.495587 |
+    | GDGT-3       |   0.0143587 |   0.0180567 |   0          |   0.00276874 |   0.00468285 |   0.0187017 |   0.137676 |
+    | Crenarchaeol |   0.423026  |   0.117709  |   0.00470888 |   0.371501   |   0.430638   |   0.511727  |   0.922301 |
+    | Cren'        |   0.0262077 |   0.0285381 |   0          |   0.0060827  |   0.0128192  |   0.036708  |   0.448483 |
+    | Age (Ma)     |  25.8904    |  19.9692    |   0.00079    |   7.605      |  23.6996     |  44.0078    |  65.6753   |
+    | Longitude    | 107.989     |  63.8551    | -56.75       |  68.385      | 136          | 149.928     | 178.3      |
+    | Latitude     | -58.566     |   8.01999   | -77.8894     | -59.8        | -57.3        | -51.3       | -46.88     |
+
+    
 
     :Creator: Bella Duncan & Mario Krapp (mariokrapp@gmail.com)
-    :Date: November, 2023
-
-We will add a little more information about this dataset at a later stage.
+    :Date: November, 2024
 
 |details-start|
 **References**
 |details-split|
 
-- we could add some references at some later point
+- unpublished
 
 |details-end|
