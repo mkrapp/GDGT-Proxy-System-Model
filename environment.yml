@@ -15,5 +15,6 @@ dependencies:
   - pandas
   - pymc
   - scikit-learn
+  - tabulate
   - vega_datasets
   - xarray
