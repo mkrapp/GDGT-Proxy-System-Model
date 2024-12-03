@@ -16,5 +16,6 @@ dependencies:
   - pymc
   - scikit-learn
   - tabulate
+  - tqdm
   - vega_datasets
   - xarray
